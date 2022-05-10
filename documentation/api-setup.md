@@ -55,36 +55,20 @@ npm i -D @types/body-parser
 ### Install Prisma ORM
 ``` ts
 npm i prisma                // Next-generation Node.js and TypeScript ORM
-npm install @prisma/client  // 
+npm install @prisma/client
 ```
 
 > Define your models then:
 
-#### Create migrate:down file
+#### Create migration *down.sql* file
 ``` ts
 npx prisma migrate diff --from-schema-datamodel src/prisma/schema.prisma --to-schema-datasource src/prisma/schema.prisma --script > down.sql
 ```
 
-#### Create migrate:up file
+#### Create and run migration
 ``` ts
 npx prisma migrate dev --name init --create-only
 npx prisma migrate dev
-```
-
-#### To execute migrate:down ***(NOT RECOMMENDED)***
-``` ts
-npx prisma db execute --file ./down.sql --schema src/prisma/schema.prisma
-// OR
-npx prisma migrate resolve --rolled-back init
-```
-
-### Install sequelize ORM ***(LEGACY-DON'T USE IT)***
-``` ts
-npm i sequelize             // Sequelize is a promise-based Node.js ORM tool
-npm i -D @types/sequelize
-
-npm install pg pg-hstore    // Non-blocking PostgreSQL client for Node.js
-npm i -D sequelize-cli      // The Sequelize Command Line Interface (CLI)
 ```
 
 ### Install Jasmine
