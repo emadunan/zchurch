@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Models
+model Book {
+  id       Int       @id @default(autoincrement())
+  nam      String    @db.VarChar(50)
+  symbol   String    @db.VarChar(5)
+  title    String    @db.VarChar(100)
+  titlef   String    @db.VarChar(100)
+  titlelng String    @db.VarChar(255)
+  chapters Chapter[]
+
+  @@map("books")
+}
+
+model Chapter {
+  id     Int     @id @default(autoincrement())
+  numbr  Int
+  title  String  @db.VarChar(50)
+  titlef String  @db.VarChar(50)
+  book   Book    @relation(fields: [bookId], references: [id])
+  bookId Int
+  verses Verse[]
+
+  @@map("chapters")
+}
+
+model Verse {
+  id          Int          @id @default(autoincrement())
+  numbr       Int
+  textu       String
+  textf       String
+  chapter     Chapter      @relation(fields: [chapterId], references: [id])
+  chapterId   Int
+  expressions Expression[] @relation("verses_on_expressions")
+
+  @@map("verses")
+}
+
+model Expression {
+  id                     Int                      @id @default(autoincrement())
+  textu                  String                   @db.VarChar(100)
+  textf                  String                   @db.VarChar(200)
+  definition             String
+  verses                 Verse[]                  @relation("verses_on_expressions")
+  ReactionsOnExpressions ReactionsOnExpressions[]
+
+  @@map("expressions")
+}
+
+model Reaction {
+  id                     Int                      @id @default(autoincrement())
+  content                String
+  ReactionsOnExpressions ReactionsOnExpressions[]
+
+  @@map("reactions")
+}
+
+model ReactionsOnExpressions {
+  id           Int        @id @default(autoincrement())
+  expression   Expression @relation(fields: [expressionId], references: [id])
+  expressionId Int
+  reaction     Reaction   @relation(fields: [reactionId], references: [id])
+  reactionId   Int
+  reactedAt    DateTime   @default(now())
+
+  @@map("reactions_on_expressions")
+}
