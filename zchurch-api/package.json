@@ -6,7 +6,10 @@
   "scripts": {
     "lint": "eslint src/**",
     "lint:f": "eslint src/** --fix",
-    "test": "jest --detectOpenHandles"
+    "migrate": "",
+    "seed": "",
+    "watch": "ts-node src/server.ts",
+    "test": "jest"
   },
   "author": "emadunan",
   "license": "MIT",

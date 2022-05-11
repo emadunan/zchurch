@@ -38,6 +38,16 @@ npm init @eslint/config
 }
 ```
 
+#### Create prettier configuration file -> ***.prettierrc.json***
+``` json
+{
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": false
+}
+```
+
 ### Install .ENV
 ``` ts
 npm i dotenv            // Loads environment variables from a .env file into process.env.
@@ -71,40 +81,16 @@ npx prisma migrate dev --name init --create-only
 npx prisma migrate dev
 ```
 
-### Install Jasmine
+### Install Jest for unit testing
 ``` ts
-npm i -D jasmine            // CLI for running Jasmine specs under Node
-npm i -D @types/jasmine
-npx jasmine init
+npm i -D jest
+jest --init
 
-npm i -D jasmine-spec-reporter  // Real time console spec reporter for jasmine
+npm i -D ts-jest
+npm install --save-dev @types/jest
 ```
 
-#### Configure jasmine-spec-reporter
-Create reporter.ts file in the helpers folder and past that code
-
+### Install Supertest for testing api endpoints
 ``` ts
-import {
-    DisplayProcessor,
-    SpecReporter,
-    StacktraceOption,
-} from "jasmine-spec-reporter";
-import SuiteInfo = jasmine.JasmineStartedInfo;
-
-class CustomProcessor extends DisplayProcessor {
-    public displayJasmineStarted(info: SuiteInfo, log: string): string {
-        return `TypeScript ${log}`;
-    }
-}
-
-jasmine.getEnv().clearReporters();
-jasmine.getEnv().addReporter(
-    new SpecReporter({
-        spec: {
-            displayStacktrace: StacktraceOption.NONE,
-        },
-        customProcessors: [CustomProcessor],
-    })
-);
-
+npm i -D supertest
 ```

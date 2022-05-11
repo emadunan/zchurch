@@ -20,5 +20,5 @@ app.use("/bible", bibleRoutes);
 
 // Listen to requests
 export default app.listen(PORT, () => {
-  console.log(`Web server is running on port ${PORT}.`);
+    console.log(`Web server is running on port ${PORT}.`);
 });

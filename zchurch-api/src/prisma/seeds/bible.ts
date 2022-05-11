@@ -131,5 +131,7 @@ async function seedBooksAsync() {
     }
 }
 
-// seedBooksAsync();
-// seedFormattedVersesAsync();
+(async () => {
+    await seedBooksAsync();
+    await seedFormattedVersesAsync();
+})();
