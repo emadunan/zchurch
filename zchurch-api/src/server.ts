@@ -19,6 +19,6 @@ app.use(bodyParser.json());
 app.use("/bible", bibleRoutes);
 
 // Listen to requests
-app.listen(PORT, () => {
+export default app.listen(PORT, () => {
   console.log(`Web server is running on port ${PORT}.`);
 });
