@@ -28,6 +28,13 @@ async function getOneBook(req: Request, res: Response): Promise<void> {
       where: {
         id: id,
       },
+      include: {
+        chapters: {
+          include: {
+            verses: true
+          }
+        }
+      }
     });
     res.status(200).json(books);
   } catch (error) {

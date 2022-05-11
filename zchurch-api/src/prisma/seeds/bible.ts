@@ -8,23 +8,6 @@ import { arChapters } from "../../../data/ar-chapters";
 
 const prisma = new PrismaClient();
 
-/** Seed Books data */
-async function seedBooksAsync() {
-    // await prisma.book.createMany({
-    //     data: arBooks
-    // });
-
-    const books = await prisma.book.findMany({
-        orderBy: {
-            id: "asc"
-        }
-    });
-
-    for (const book of books) {
-        seedChaptersAndVersesAsync(book.id);
-    }
-}
-
 /** Seed Chapters and Verses data */
 async function seedChaptersAndVersesAsync(bookId: number) {
     // Read content from a file (.txt)
@@ -53,7 +36,7 @@ async function seedChaptersAndVersesAsync(bookId: number) {
             const chapterTextf = arChapters[idx][2];
 
             // Insert a new record into chapters table
-            await prisma.chapter.create({
+            const createdChapter = await prisma.chapter.create({
                 data: {
                     numbr: chapterNumbr,
                     title: chapterTextu,
@@ -62,6 +45,8 @@ async function seedChaptersAndVersesAsync(bookId: number) {
                 }
             });
 
+            // Extract the chapter Id
+            currentChapterId = createdChapter.id;
             idx++;
         } else {
             // Get the verse data
@@ -128,5 +113,23 @@ const seedFormattedVersesAsync = async () => {
     }
 };
 
-seedBooksAsync();
-seedFormattedVersesAsync();
+/** Seed Books data */
+async function seedBooksAsync() {
+    await prisma.book.createMany({
+        data: arBooks
+    });
+
+    const books = await prisma.book.findMany({
+        orderBy: {
+            id: "asc"
+        }
+    });
+
+    for (const book of books) {
+        const result = await seedChaptersAndVersesAsync(book.id);
+        console.log(result);
+    }
+}
+
+// seedBooksAsync();
+// seedFormattedVersesAsync();

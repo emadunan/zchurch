@@ -29,7 +29,7 @@ model Chapter {
   title  String  @db.VarChar(50)
   titlef String  @db.VarChar(50)
   book   Book    @relation(fields: [bookId], references: [id])
-  bookId Int
+  bookId Int      @map("book_id")
   verses Verse[]
 
   @@map("chapters")
@@ -41,7 +41,7 @@ model Verse {
   textu       String
   textf       String
   chapter     Chapter      @relation(fields: [chapterId], references: [id])
-  chapterId   Int
+  chapterId   Int          @map("chapter_id")
   expressions Expression[] @relation("verses_on_expressions")
 
   @@map("verses")
@@ -69,9 +69,9 @@ model Reaction {
 model ReactionsOnExpressions {
   id           Int        @id @default(autoincrement())
   expression   Expression @relation(fields: [expressionId], references: [id])
-  expressionId Int
+  expressionId Int        @map("expression_id")
   reaction     Reaction   @relation(fields: [reactionId], references: [id])
-  reactionId   Int
+  reactionId   Int        @map("reaction_id")
   reactedAt    DateTime   @default(now())
 
   @@map("reactions_on_expressions")
