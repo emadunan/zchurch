@@ -7,9 +7,10 @@
     "lint": "eslint src/**",
     "lint:f": "eslint src/** --fix",
     "migrate": "prisma migrate dev",
+    "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
     "seed": "ts-node src/prisma/seeds/bible.ts",
     "watch": "ts-node src/server.ts",
-    "test": "jest"
+    "test": "dotenv -e .env.test jest -i"
   },
   "author": "emadunan",
   "license": "MIT",
@@ -20,6 +21,7 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
+    "dotenv-cli": "^5.1.0",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
