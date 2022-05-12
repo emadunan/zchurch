@@ -51,21 +51,21 @@ async function createNewExpression(req: Request, res: Response) {
     try {
         const receivedExpression = req.body;
         const createdExpression = await prisma.expression.create({
-            data: receivedExpression
+            data: receivedExpression,
         });
 
         if (createdExpression) {
             res.status(201).json({
                 message: "new expression has been created",
-                data: createdExpression
+                data: createdExpression,
             });
         } else {
             res.status(400).json({
-                message: "you have sent a bad request"
+                message: "you have sent a bad request",
             });
         }
     } catch (error) {
-        throw new Error(error as string); 
+        throw new Error(error as string);
     }
 }
 
@@ -76,26 +76,25 @@ async function updateExpression(req: Request, res: Response) {
         const receivedExpressionId = +receivedExpression.id;
         const updatedExpression = await prisma.expression.update({
             where: {
-                id: receivedExpressionId
+                id: receivedExpressionId,
             },
             data: {
                 textu: receivedExpression.textu,
                 textf: receivedExpression.textf,
-                definition: receivedExpression.definition
-            }
+                definition: receivedExpression.definition,
+            },
         });
 
         if (updatedExpression) {
             res.status(200).json({
                 message: "expression has been updated",
-                data: updatedExpression
+                data: updatedExpression,
             });
         } else {
             res.status(400).json({
-                message: "you have sent a bad request"
+                message: "you have sent a bad request",
             });
         }
-        
     } catch (error) {
         throw new Error(error as string);
     }
@@ -107,18 +106,18 @@ async function destroyExpression(req: Request, res: Response) {
         const expressionId = +req.params.expressionId;
         const deletedExpression = await prisma.expression.delete({
             where: {
-                id: expressionId
-            }
+                id: expressionId,
+            },
         });
 
         if (deletedExpression) {
             res.status(200).json({
                 message: "expression has been removed",
-                data: deletedExpression
+                data: deletedExpression,
             });
         } else {
             res.status(400).json({
-                message: "failed to remove the expression"
+                message: "failed to remove the expression",
             });
         }
     } catch (error) {

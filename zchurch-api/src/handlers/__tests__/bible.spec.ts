@@ -1,14 +1,24 @@
 import supertest from "supertest";
 import app from "../../server";
+import {
+    initializeZchurchTestDatabaseAsync,
+    clearZchurchTestDatabaseAsync,
+} from "../../helpers/test-db-prep";
 
 const request = supertest(app);
 
+jest.setTimeout(60000);
+
 describe("Bible Endpoints Tests", () => {
+    beforeAll(async () => {
+        await initializeZchurchTestDatabaseAsync();
+    });
+
     describe("GET /bible", () => {
-        test("Return all (66) bible books", async () => {
+        test("Return array of books", async () => {
             const response = await request.get("/bible");
             expect(response.status).toBe(200);
-            expect(response.body.length).toBe(66);
+            expect(response.body[0].nam).toBe("jonah");
         });
     });
 
@@ -29,7 +39,8 @@ describe("Bible Endpoints Tests", () => {
         });
     });
 
-    afterAll(() => {
+    afterAll(async () => {
+        await clearZchurchTestDatabaseAsync();
         app.close();
     });
 });

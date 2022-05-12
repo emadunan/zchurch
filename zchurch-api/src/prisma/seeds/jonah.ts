@@ -17,7 +17,7 @@ async function seedChaptersAndVersesAsync(bookId: number) {
             "../../../..",
             "plain-content",
             "bible-verses-unformatted",
-            `${bookId}.txt`
+            `32.txt`
         )
     );
 
@@ -78,7 +78,7 @@ const seedFormattedVersesAsync = async () => {
             "../../../..",
             "plain-content",
             "bible-verses-formatted",
-            "1.txt"
+            "32.txt"
         )
     );
 
@@ -110,10 +110,10 @@ const seedFormattedVersesAsync = async () => {
     }
 };
 
-/** Seed Genesis data */
-async function seedBooksAsync() {
+/** Seed Jonah data */
+async function seedJonahAsync() {
     await prisma.book.create({
-        data: arBooks[0]
+        data: arBooks[31]
     });
 
     const book = await prisma.book.findFirst();
@@ -124,7 +124,7 @@ async function seedBooksAsync() {
     
 }
 
-(async () => {
-    await seedBooksAsync();
+export default async () => {
+    await seedJonahAsync();
     await seedFormattedVersesAsync();
-})();
+};
