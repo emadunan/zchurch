@@ -1,3 +1,0 @@
-DROP DATABASE zchurch_db;
-CREATE DATABASE zchurch_db;
-GRANT ALL PRIVILEGES ON DATABASE zchurch_db TO zchurchz;

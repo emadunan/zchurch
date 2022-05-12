@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint src/**",
     "lint:f": "eslint src/** --fix",
-    "migrate": "",
-    "seed": "",
+    "migrate": "prisma migrate dev",
+    "seed": "ts-node src/prisma/seeds/bible.ts",
     "watch": "ts-node src/server.ts",
     "test": "jest"
   },

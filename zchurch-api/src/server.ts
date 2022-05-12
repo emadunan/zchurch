@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 
 // Import routes
 import bibleRoutes from "./handlers/bible";
+import expressionsRoutes from "./handlers/expression";
 
 // Extract environment variables
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 
 // Register routes
 app.use("/bible", bibleRoutes);
+app.use("/expressions", expressionsRoutes);
 
 // Listen to requests
 export default app.listen(PORT, () => {

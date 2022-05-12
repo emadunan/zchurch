@@ -125,3 +125,5 @@ async function destroyExpression(req: Request, res: Response) {
         throw new Error(error as string);
     }
 }
+
+export default router;
