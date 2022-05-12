@@ -7,11 +7,14 @@ import {
 
 const request = supertest(app);
 
-jest.setTimeout(60000);
-
 describe("Bible Endpoints Tests", () => {
     beforeAll(async () => {
         await initializeZchurchTestDatabaseAsync();
+    });
+
+    afterAll(async () => {
+        await clearZchurchTestDatabaseAsync();
+        app.close();
     });
 
     describe("GET /bible", () => {
@@ -37,10 +40,5 @@ describe("Bible Endpoints Tests", () => {
                 "the page that you were looking for doesn't exist"
             );
         });
-    });
-
-    afterAll(async () => {
-        await clearZchurchTestDatabaseAsync();
-        app.close();
     });
 });
