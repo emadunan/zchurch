@@ -1,27 +1,22 @@
 import supertest from "supertest";
 import app from "../../server";
-import {
-    initializeZchurchTestDatabaseAsync,
-    clearZchurchTestDatabaseAsync,
-} from "../../helpers/test-db-prep";
 
 const request = supertest(app);
 
 describe("Bible Endpoints Tests", () => {
-    beforeAll(async () => {
-        await initializeZchurchTestDatabaseAsync();
-    });
 
-    afterAll(async () => {
-        await clearZchurchTestDatabaseAsync();
-        app.close();
-    });
+    afterAll(() => {
+        app.close()
+    })
 
     describe("GET /bible", () => {
         test("Return array of books", async () => {
             const response = await request.get("/bible");
             expect(response.status).toBe(200);
-            expect(response.body[0].nam).toBe("jonah");
+            expect(response.body.length).toBe(66);
+            expect(response.body[0].nam).toBe("genesis");
+            expect(response.body[31].nam).toBe("jonah");
+            expect(response.body[65].nam).toBe("revelation");
         });
     });
 

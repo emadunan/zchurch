@@ -21,6 +21,8 @@ app.use("/bible", bibleRoutes);
 app.use("/expressions", expressionsRoutes);
 
 // Listen to requests
-export default app.listen(PORT, () => {
+const applistener = app.listen(PORT, () => {
     console.log(`Web server is running on port ${PORT}.`);
 });
+
+export default applistener;
