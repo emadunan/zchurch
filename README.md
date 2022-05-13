@@ -43,13 +43,15 @@ DATABASE_URL="postgresql://emadunan:password@localhost:5432/mydb_test?schema=pub
 Run migration
 
 ```bash
-npm run migrate
+npm run migrate           # For dev environment
+npm run migrate:test      # For test environment
 ```
 
 Seed data
 
 ```bash
-npm run seed
+npm run seed              # For dev environment
+npm run seed:test         # For test environment
 ```
 
 ***
