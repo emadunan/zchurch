@@ -4,10 +4,9 @@ import app from "../../server";
 const request = supertest(app);
 
 describe("Bible Endpoints Tests", () => {
-
     afterAll(() => {
-        app.close()
-    })
+        app.close();
+    });
 
     describe("GET /bible", () => {
         test("Return array of books", async () => {

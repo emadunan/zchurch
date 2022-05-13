@@ -11,6 +11,7 @@
     "seed": "ts-node src/prisma/seeds/bible.ts",
     "seed:test": "dotenv -e .env.test -- ts-node src/prisma/seeds/bible.ts",
     "watch": "ts-node src/server.ts",
+    "debug": "nodemon --watch src/server.ts -e ts --exec node --inspect -r ts-node/register src/server.ts",
     "test": "dotenv -e .env.test -- jest -i"
   },
   "author": "emadunan",

@@ -41,8 +41,8 @@ async function seedChaptersAndVersesAsync(bookId: number) {
                     numbr: chapterNumbr,
                     title: chapterTextu,
                     titlef: chapterTextf,
-                    bookId: bookId
-                }
+                    bookId: bookId,
+                },
             });
 
             // Extract the chapter Id
@@ -59,8 +59,8 @@ async function seedChaptersAndVersesAsync(bookId: number) {
                     numbr: +verseNumbr,
                     textu: verse,
                     textf: "placeholder",
-                    chapterId: currentChapterId
-                }
+                    chapterId: currentChapterId,
+                },
             });
         }
     }
@@ -100,7 +100,7 @@ const seedFormattedVersesAsync = async () => {
                 await prisma.verse.updateMany({
                     where: {
                         numbr: +verseNumbr,
-                        chapterId: idx
+                        chapterId: idx,
                     },
                     data: {
                         textf: verse,
@@ -116,13 +116,13 @@ const seedFormattedVersesAsync = async () => {
 /** Seed Books data */
 async function seedBooksAsync() {
     await prisma.book.createMany({
-        data: arBooks
+        data: arBooks,
     });
 
     const books = await prisma.book.findMany({
         orderBy: {
-            id: "asc"
-        }
+            id: "asc",
+        },
     });
 
     for (const book of books) {

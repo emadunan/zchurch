@@ -16,7 +16,11 @@ router.delete("/:expressionId", destroyExpression);
 // GET /expressions -> Retrieve all expressions
 async function getAllExpressions(req: Request, res: Response): Promise<void> {
     try {
-        const expressions = prisma.expression.findMany();
+        const expressions = await prisma.expression.findMany({
+            orderBy: {
+                id: "asc",
+            },
+        });
         res.status(200).json(expressions);
     } catch (error) {
         throw new Error(error as string);

@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 const request = supertest(app);
 
 describe("Expression Endpoints Tests", () => {
-
     afterAll(async () => {
         await prisma.$executeRaw`TRUNCATE TABLE expressions CASCADE`;
         await prisma.$executeRaw`ALTER SEQUENCE expressions_id_seq RESTART WITH 1`;
@@ -16,9 +15,9 @@ describe("Expression Endpoints Tests", () => {
     describe("POST /expressions", () => {
         test("Create new expression and return it", async () => {
             const response = await request.post("/expressions").send({
-                "textu": "ادم",
-                "textf": "ادَم",
-                "definition": "انسان خلقة الرب الاله في اليوم السادس"
+                textu: "ادم",
+                textf: "ادَم",
+                definition: "انسان خلقة الرب الاله في اليوم السادس",
             });
             expect(response.status).toBe(201);
             expect(response.body.data.textf).toBe("ادَم");
@@ -29,9 +28,9 @@ describe("Expression Endpoints Tests", () => {
 
         test("Create another expression and return it", async () => {
             const response = await request.post("/expressions").send({
-                "textu": "حواء",
-                "textf": "حَواء",
-                "definition": "انسانه خلقها الرب الاله من ضلع ادم"
+                textu: "حواء",
+                textf: "حَواء",
+                definition: "انسانه خلقها الرب الاله من ضلع ادم",
             });
             expect(response.status).toBe(201);
             expect(response.body.data.textf).toBe("حَواء");
@@ -47,7 +46,7 @@ describe("Expression Endpoints Tests", () => {
                 id: 1,
                 textu: "أدم",
                 textf: "أدَم",
-                definition: "إنسان خلقة الرب الاله في اليوم السادس"
+                definition: "إنسان خلقة الرب الاله في اليوم السادس",
             });
             expect(response.status).toBe(200);
             expect(response.body.data.textf).toBe("أدَم");
@@ -76,6 +75,22 @@ describe("Expression Endpoints Tests", () => {
             expect(response.body.length).toBe(2);
             expect(response.body[0].textu).toBe("أدم");
             expect(response.body[1].textu).toBe("حواء");
+        });
+    });
+
+    describe("GET /expressions/2", () => {
+        test("Return one expression", async () => {
+            const response = await request.get("/expressions/2");
+            expect(response.status).toBe(200);
+            expect(response.body.textu).toBe("حواء");
+        });
+    });
+
+    describe("DELETE /expressions/2", () => {
+        test("Return one expression", async () => {
+            const response = await request.delete("/expressions/2");
+            expect(response.status).toBe(200);
+            expect(response.body.data.textu).toBe("حواء");
         });
     });
 });
