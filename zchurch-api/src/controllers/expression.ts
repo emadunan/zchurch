@@ -6,9 +6,9 @@ const prisma = new PrismaClient();
 
 /** Define Expressions Routes */
 router.get("/", getAllExpressions);
-router.get("/:expressionId", getOneExpression);
 router.post("/", createNewExpression);
-router.put("/", updateExpression);
+router.get("/:expressionId", getOneExpression);
+router.put("/:expressionId", updateExpression);
 router.delete("/:expressionId", destroyExpression);
 
 /** Define Expressions Endpoints */
@@ -73,13 +73,14 @@ async function createNewExpression(req: Request, res: Response) {
     }
 }
 
-// PUT /expressions -> Update expression data
+// PUT /expressions/:expressionId -> Update expression data
 async function updateExpression(req: Request, res: Response) {
     try {
-        const { id, textu, textf, definition } = req.body;
+        const id = +req.params.expressionId;
+        const { textu, textf, definition } = req.body;
         const updatedExpression = await prisma.expression.update({
             where: {
-                id: +id,
+                id: id,
             },
             data: {
                 textu: textu,

@@ -40,10 +40,9 @@ describe("Expression Endpoints Tests", () => {
         });
     });
 
-    describe("PUT /expressions", () => {
+    describe("PUT /expressions/1", () => {
         test("Update all expression's fields and return it", async () => {
-            const response = await request.put("/expressions").send({
-                id: 1,
+            const response = await request.put("/expressions/1").send({
                 textu: "أدم",
                 textf: "أدَم",
                 definition: "إنسان خلقة الرب الاله في اليوم السادس",
@@ -56,8 +55,7 @@ describe("Expression Endpoints Tests", () => {
         });
 
         test("Update expression's one field and return it", async () => {
-            const response = await request.put("/expressions").send({
-                id: 1,
+            const response = await request.put("/expressions/1").send({
                 textf: "أدَمُ",
             });
             expect(response.status).toBe(200);
