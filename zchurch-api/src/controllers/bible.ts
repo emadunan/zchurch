@@ -4,11 +4,11 @@ import { PrismaClient } from "@prisma/client";
 const router = Router();
 const prisma = new PrismaClient();
 
-/** Define bible routes */
+/** Define Bible Routes */
 router.get("/", getAllBooks);
 router.get("/:bookName", getOneBook);
 
-/** Define bible handlers */
+/** Define Bible Endpoints */
 
 // GET /bible -> Retrieve all books
 async function getAllBooks(req: Request, res: Response): Promise<void> {

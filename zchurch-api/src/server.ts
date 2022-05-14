@@ -3,8 +3,8 @@ import express from "express";
 import bodyParser from "body-parser";
 
 // Import routes
-import bibleRoutes from "./handlers/bible";
-import expressionsRoutes from "./handlers/expression";
+import bibleRoutes from "./controllers/bible";
+import expressionsRoutes from "./controllers/expression";
 
 // Extract environment variables
 dotenv.config();

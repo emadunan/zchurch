@@ -4,14 +4,14 @@ import { PrismaClient } from "@prisma/client";
 const router = Router();
 const prisma = new PrismaClient();
 
-/** Define Expression routes */
+/** Define Expressions Routes */
 router.get("/", getAllExpressions);
 router.get("/:expressionId", getOneExpression);
 router.post("/", createNewExpression);
 router.put("/", updateExpression);
 router.delete("/:expressionId", destroyExpression);
 
-/** Define expression handler */
+/** Define Expressions Endpoints */
 
 // GET /expressions -> Retrieve all expressions
 async function getAllExpressions(req: Request, res: Response): Promise<void> {
@@ -76,16 +76,15 @@ async function createNewExpression(req: Request, res: Response) {
 // PUT /expressions -> Update expression data
 async function updateExpression(req: Request, res: Response) {
     try {
-        const receivedExpression = req.body;
-        const receivedExpressionId = +receivedExpression.id;
+        const { id, textu, textf, definition } = req.body;
         const updatedExpression = await prisma.expression.update({
             where: {
-                id: receivedExpressionId,
+                id: +id,
             },
             data: {
-                textu: receivedExpression.textu,
-                textf: receivedExpression.textf,
-                definition: receivedExpression.definition,
+                textu: textu,
+                textf: textf,
+                definition: definition,
             },
         });
 
