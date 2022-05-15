@@ -22,7 +22,7 @@ app.use("/expressions", expressionsRoutes);
 
 // Listen to requests
 const applistener = app.listen(PORT, () => {
-    console.log(`Web server is running on port ${PORT}.`);
+    console.log(`🚀 Server running on http://127.0.0.1:${PORT}`);
 });
 
 export default applistener;

@@ -6,10 +6,13 @@
   "scripts": {
     "lint": "eslint src/**",
     "lint:f": "eslint src/** --fix",
+    "studio": "prisma studio",
     "migrate": "prisma migrate dev",
     "migrate:test": "dotenv -e .env.test -- prisma migrate dev",
     "seed": "ts-node src/prisma/seeds/bible.ts",
     "seed:test": "dotenv -e .env.test -- ts-node src/prisma/seeds/bible.ts",
+    "build": "tsc",
+    "serve": "node dist/server.js",
     "watch": "ts-node src/server.ts",
     "debug": "nodemon --watch src/server.ts -e ts --exec node --inspect -r ts-node/register src/server.ts",
     "test": "dotenv -e .env.test -- jest -i"

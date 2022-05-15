@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  // binaryTargets = ["debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -29,7 +30,7 @@ model Chapter {
   title  String  @db.VarChar(50)
   titlef String  @db.VarChar(50)
   book   Book    @relation(fields: [bookId], references: [id])
-  bookId Int      @map("book_id")
+  bookId Int     @map("book_id")
   verses Verse[]
 
   @@map("chapters")
