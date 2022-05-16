@@ -7,8 +7,8 @@ const request = supertest(app);
 
 describe("Expression Endpoints Tests", () => {
     afterAll(async () => {
-        await prisma.$executeRaw`TRUNCATE TABLE expressions CASCADE`;
-        await prisma.$executeRaw`ALTER SEQUENCE expressions_id_seq RESTART WITH 1`;
+        await prisma.$executeRaw`TRUNCATE TABLE "Expression" CASCADE`;
+        await prisma.$executeRaw`ALTER SEQUENCE "Expression_id_seq" RESTART WITH 1`;
         app.close();
     });
 

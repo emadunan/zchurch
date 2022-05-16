@@ -20,8 +20,6 @@ model Book {
   titlef   String    @db.VarChar(100)
   titlelng String    @db.VarChar(255)
   chapters Chapter[]
-
-  @@map("books")
 }
 
 model Chapter {
@@ -30,10 +28,8 @@ model Chapter {
   title  String  @db.VarChar(50)
   titlef String  @db.VarChar(50)
   book   Book    @relation(fields: [bookId], references: [id])
-  bookId Int     @map("book_id")
+  bookId Int
   verses Verse[]
-
-  @@map("chapters")
 }
 
 model Verse {
@@ -42,10 +38,8 @@ model Verse {
   textu       String
   textf       String
   chapter     Chapter      @relation(fields: [chapterId], references: [id])
-  chapterId   Int          @map("chapter_id")
-  expressions Expression[] @relation("verses_on_expressions")
-
-  @@map("verses")
+  chapterId   Int
+  expressions Expression[]
 }
 
 model Expression {
@@ -53,27 +47,21 @@ model Expression {
   textu                  String                   @db.VarChar(100)
   textf                  String                   @db.VarChar(200)
   definition             String
-  verses                 Verse[]                  @relation("verses_on_expressions")
-  ReactionsOnExpressions ReactionsOnExpressions[]
-
-  @@map("expressions")
+  verses                 Verse[]
+  reactions ReactionToExpression[]
 }
 
 model Reaction {
   id                     Int                      @id @default(autoincrement())
   content                String
-  ReactionsOnExpressions ReactionsOnExpressions[]
-
-  @@map("reactions")
+  expressions ReactionToExpression[]
 }
 
-model ReactionsOnExpressions {
+model ReactionToExpression {
   id           Int        @id @default(autoincrement())
   expression   Expression @relation(fields: [expressionId], references: [id])
-  expressionId Int        @map("expression_id")
+  expressionId Int
   reaction     Reaction   @relation(fields: [reactionId], references: [id])
-  reactionId   Int        @map("reaction_id")
+  reactionId   Int
   reactedAt    DateTime   @default(now())
-
-  @@map("reactions_on_expressions")
 }
