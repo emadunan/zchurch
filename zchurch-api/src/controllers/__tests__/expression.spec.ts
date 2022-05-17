@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../client";
 import supertest from "supertest";
 import app from "../../server";
 
-const prisma = new PrismaClient();
 const request = supertest(app);
 
 describe("Expression Endpoints Tests", () => {
