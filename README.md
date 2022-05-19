@@ -90,7 +90,7 @@ GET /bible/${bookName}
 GET /expressions
 ```
 
-#### Get item
+#### Get one expression
 
 ```http
 GET /expressions/${id}
@@ -101,3 +101,20 @@ GET /expressions/${id}
 | `id`      | `number` | **Required**. Id of expression to fetch |
 
 ***
+
+## References
+- https://nodejs.org/
+- https://www.npmjs.com/
+- https://expressjs.com/
+- https://www.prisma.io/
+- https://jestjs.io/
+- https://socket.io/
+- https://prettier.io/
+- https://eslint.org/
+- https://www.typescriptlang.org/
+- https://www.postgresql.org/
+- https://aws.amazon.com/
+- https://www.cygwin.com/
+- https://www.diagrams.net/
+- https://www.cloudcraft.co/
+- https://readme.so/
