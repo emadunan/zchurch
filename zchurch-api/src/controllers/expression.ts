@@ -3,18 +3,22 @@ import prisma from "../client";
 
 const router = Router();
 
-/** Define Expressions Routes */
+// Define Expressions Routes
 router.get("/", getAllExpressions);
 router.post("/", createNewExpression);
 router.get("/:id", getOneExpression);
 router.put("/:id", updateExpression);
 router.delete("/:id", destroyExpression);
 router.put("/:id/verse/:verseId", connectVerse);
+router.delete("/:id/verse/:verseId", disconnectVerse);
 router.put("/:id/reaction", addReaction);
+router.delete("/reactions/:id", destroyReaction);
+router.put("/reactions/:id", updateReaction);
 
-/** Define Expressions Endpoints */
+// Define Expressions Endpoints destroyReaction
 
-// GET /expressions -> Retrieve all expressions
+/** GET /expressions
+ * Retrieve all expressions */
 async function getAllExpressions(req: Request, res: Response): Promise<void> {
     try {
         const expressions = await prisma.expression.findMany({
@@ -28,7 +32,8 @@ async function getAllExpressions(req: Request, res: Response): Promise<void> {
     }
 }
 
-// GET /expressions/:id -> Retrieve one expression
+/** GET /expressions/:id
+ * Retrieve one expression */
 async function getOneExpression(req: Request, res: Response): Promise<void> {
     try {
         const id = +req.params.id;
@@ -51,7 +56,8 @@ async function getOneExpression(req: Request, res: Response): Promise<void> {
     }
 }
 
-// POST /expressions -> Create a new expression
+/** POST /expressions
+ * Create a new expression */
 async function createNewExpression(req: Request, res: Response) {
     try {
         const receivedExpression = req.body;
@@ -74,7 +80,8 @@ async function createNewExpression(req: Request, res: Response) {
     }
 }
 
-// PUT /expressions/:id -> Update expression data
+/** PUT /expressions/:id
+ * Update expression data */
 async function updateExpression(req: Request, res: Response) {
     try {
         const id = +req.params.id;
@@ -105,7 +112,8 @@ async function updateExpression(req: Request, res: Response) {
     }
 }
 
-// DELETE /expressions/:id -> Delete expression
+/** DELETE /expressions/:id
+ * Delete expression */
 async function destroyExpression(req: Request, res: Response) {
     try {
         const id = +req.params.id;
@@ -130,7 +138,8 @@ async function destroyExpression(req: Request, res: Response) {
     }
 }
 
-// DELETE /expressions/:id/verse/:verseId -> Connect expression to verse
+/** PUT /expressions/:id/verse/:verseId
+ * Connect expression to verse */
 async function connectVerse(req: Request, res: Response) {
     try {
         const { id, verseId } = req.params;
@@ -152,6 +161,35 @@ async function connectVerse(req: Request, res: Response) {
         res.status(200).json({
             message: "expression have been updated",
             data: expression,
+        });
+    } catch (error) {
+        throw new Error(error as string);
+    }
+}
+
+/** DELETE /expressions/:id/verse/:verseId */
+async function disconnectVerse(req: Request, res: Response) {
+    try {
+        const { id, verseId } = req.params;
+        const updatedExpression = await prisma.expression.update({
+            where: {
+                id: +id,
+            },
+            data: {
+                verses: {
+                    disconnect: {
+                        id: +verseId,
+                    },
+                },
+            },
+            include: {
+                verses: true,
+            },
+        });
+
+        res.status(200).json({
+            message: "expression has been updated",
+            data: updatedExpression,
         });
     } catch (error) {
         throw new Error(error as string);
@@ -186,4 +224,47 @@ async function addReaction(req: Request, res: Response) {
         throw new Error(error as string);
     }
 }
+
+/** PUT /expressions/reactions/:id */
+async function updateReaction(req: Request, res: Response) {
+    try {
+        const id = +req.params.id;
+        const content = req.body.content;
+        const updatedReaction = await prisma.reaction.update({
+            where: {
+                id: id,
+            },
+            data: {
+                content: content,
+            },
+        });
+
+        res.status(200).json({
+            message: "reaction has been updated",
+            data: updatedReaction,
+        });
+    } catch (error) {
+        throw new Error(error as string);
+    }
+}
+
+/** DELETE /expressions/reactions/:id */
+async function destroyReaction(req: Request, res: Response) {
+    try {
+        const id = +req.params.id;
+        const deletedReaction = await prisma.reaction.delete({
+            where: {
+                id: id,
+            },
+        });
+
+        res.status(200).json({
+            message: "reaction has been deleted",
+            data: deletedReaction,
+        });
+    } catch (error) {
+        throw new Error(error as string);
+    }
+}
+
 export default router;

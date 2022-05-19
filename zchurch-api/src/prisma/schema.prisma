@@ -55,6 +55,6 @@ model Reaction {
   id           Int        @id @default(autoincrement())
   content      String
   reactedAt    DateTime   @default(now())
-  expression   Expression @relation(fields: [expressionId], references: [id])
+  expression   Expression @relation(fields: [expressionId], references: [id], onDelete: Cascade)
   expressionId Int
 }

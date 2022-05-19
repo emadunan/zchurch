@@ -98,9 +98,18 @@ describe("Expression Endpoints Tests", () => {
             const response = await request.put("/expressions/1/verse/38");
             expect(response.status).toBe(200);
             expect(response.body.data.textu).toBe("أدم");
+            expect(response.body.data.verses.length).toBe(1);
             expect(response.body.data.verses[0].textu).toBe(
                 "وجبل الرب الإله آدم ترابا من الأرض، ونفخ في أنفه نسمة حياة. فصار آدم نفسا حية."
             );
+        });
+    });
+
+    describe("DELETE /expressions/1/verse/38", () => {
+        test("Disconnect the expression from the selected verse", async () => {
+            const response = await request.delete("/expressions/1/verse/38");
+            expect(response.status).toBe(200);
+            expect(response.body.data.verses.length).toBe(0);
         });
     });
 
@@ -114,6 +123,42 @@ describe("Expression Endpoints Tests", () => {
             expect(response.body.data.reactions[0].content).toBe(
                 "سمع صوت امراته وكسر الوصيه"
             );
+        });
+    });
+
+    describe("PUT /reactions/1", () => {
+        test("Update reaction and return it", async () => {
+            const reaction = await prisma.reaction.findFirst({
+                where: {
+                    expressionId: 1,
+                },
+            });
+            const reactionId = reaction?.id;
+
+            const response = await request
+                .put(`/expressions/reactions/${reactionId}`)
+                .send({
+                    content: "هللويا",
+                });
+            expect(response.status).toBe(200);
+            expect(response.body.data.content).toBe("هللويا");
+        });
+    });
+
+    describe("DELETE /reactions/1", () => {
+        test("Delete reaction and return it", async () => {
+            const reaction = await prisma.reaction.findFirst({
+                where: {
+                    expressionId: 1,
+                },
+            });
+            const reactionId = reaction?.id;
+
+            const response = await request.delete(
+                `/expressions/reactions/${reactionId}`
+            );
+            expect(response.status).toBe(200);
+            expect(response.body.data.id).toBe(reactionId);
         });
     });
 });
