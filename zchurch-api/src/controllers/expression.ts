@@ -6,9 +6,11 @@ const router = Router();
 /** Define Expressions Routes */
 router.get("/", getAllExpressions);
 router.post("/", createNewExpression);
-router.get("/:expressionId", getOneExpression);
-router.put("/:expressionId", updateExpression);
-router.delete("/:expressionId", destroyExpression);
+router.get("/:id", getOneExpression);
+router.put("/:id", updateExpression);
+router.delete("/:id", destroyExpression);
+router.put("/:id/verse/:verseId", connectVerse);
+router.put("/:id/reaction", addReaction);
 
 /** Define Expressions Endpoints */
 
@@ -26,13 +28,13 @@ async function getAllExpressions(req: Request, res: Response): Promise<void> {
     }
 }
 
-// GET /expressions/:expressionId -> Retrieve one expression
+// GET /expressions/:id -> Retrieve one expression
 async function getOneExpression(req: Request, res: Response): Promise<void> {
     try {
-        const expressionId = +req.params.expressionId;
+        const id = +req.params.id;
         const expression = await prisma.expression.findFirst({
             where: {
-                id: expressionId,
+                id: id,
             },
         });
 
@@ -72,10 +74,10 @@ async function createNewExpression(req: Request, res: Response) {
     }
 }
 
-// PUT /expressions/:expressionId -> Update expression data
+// PUT /expressions/:id -> Update expression data
 async function updateExpression(req: Request, res: Response) {
     try {
-        const id = +req.params.expressionId;
+        const id = +req.params.id;
         const { textu, textf, definition } = req.body;
         const updatedExpression = await prisma.expression.update({
             where: {
@@ -103,13 +105,13 @@ async function updateExpression(req: Request, res: Response) {
     }
 }
 
-// DELETE /expressions/:expressionId -> Delete expression
+// DELETE /expressions/:id -> Delete expression
 async function destroyExpression(req: Request, res: Response) {
     try {
-        const expressionId = +req.params.expressionId;
+        const id = +req.params.id;
         const deletedExpression = await prisma.expression.delete({
             where: {
-                id: expressionId,
+                id: id,
             },
         });
 
@@ -128,4 +130,60 @@ async function destroyExpression(req: Request, res: Response) {
     }
 }
 
+// DELETE /expressions/:id/verse/:verseId -> Connect expression to verse
+async function connectVerse(req: Request, res: Response) {
+    try {
+        const { id, verseId } = req.params;
+        const expression = await prisma.expression.update({
+            where: {
+                id: +id,
+            },
+            data: {
+                verses: {
+                    connect: {
+                        id: +verseId,
+                    },
+                },
+            },
+            include: {
+                verses: true,
+            },
+        });
+        res.status(200).json({
+            message: "expression have been updated",
+            data: expression,
+        });
+    } catch (error) {
+        throw new Error(error as string);
+    }
+}
+
+/** PUT /expressions/1/reaction */
+async function addReaction(req: Request, res: Response) {
+    try {
+        const id = +req.params.id;
+        const content = req.body.content;
+        const expression = await prisma.expression.update({
+            where: {
+                id: id,
+            },
+            data: {
+                reactions: {
+                    create: {
+                        content: content,
+                    },
+                },
+            },
+            include: {
+                reactions: true,
+            },
+        });
+        res.status(200).json({
+            message: "expression have been updated",
+            data: expression,
+        });
+    } catch (error) {
+        throw new Error(error as string);
+    }
+}
 export default router;

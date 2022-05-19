@@ -16,7 +16,7 @@ model Book {
   id       Int       @id @default(autoincrement())
   nam      String    @db.VarChar(50)
   symbol   String    @db.VarChar(5)
-  title    String    @db.VarChar(100)
+  title    String    @db.VarChar(50)
   titlef   String    @db.VarChar(100)
   titlelng String    @db.VarChar(255)
   chapters Chapter[]
@@ -26,7 +26,7 @@ model Chapter {
   id     Int     @id @default(autoincrement())
   numbr  Int
   title  String  @db.VarChar(50)
-  titlef String  @db.VarChar(50)
+  titlef String  @db.VarChar(100)
   book   Book    @relation(fields: [bookId], references: [id])
   bookId Int
   verses Verse[]
@@ -43,25 +43,18 @@ model Verse {
 }
 
 model Expression {
-  id                     Int                      @id @default(autoincrement())
-  textu                  String                   @db.VarChar(100)
-  textf                  String                   @db.VarChar(200)
-  definition             String
-  verses                 Verse[]
-  reactions ReactionToExpression[]
+  id         Int        @id @default(autoincrement())
+  textu      String     @db.VarChar(100)
+  textf      String     @db.VarChar(200)
+  definition String
+  verses     Verse[]
+  reactions  Reaction[]
 }
 
 model Reaction {
-  id                     Int                      @id @default(autoincrement())
-  content                String
-  expressions ReactionToExpression[]
-}
-
-model ReactionToExpression {
   id           Int        @id @default(autoincrement())
+  content      String
+  reactedAt    DateTime   @default(now())
   expression   Expression @relation(fields: [expressionId], references: [id])
   expressionId Int
-  reaction     Reaction   @relation(fields: [reactionId], references: [id])
-  reactionId   Int
-  reactedAt    DateTime   @default(now())
 }

@@ -92,4 +92,28 @@ describe("Expression Endpoints Tests", () => {
             expect(response.body.data.textu).toBe("حواء");
         });
     });
+
+    describe("PUT /expressions/1/verse/38", () => {
+        test("Return expression includes related verses after update", async () => {
+            const response = await request.put("/expressions/1/verse/38");
+            expect(response.status).toBe(200);
+            expect(response.body.data.textu).toBe("أدم");
+            expect(response.body.data.verses[0].textu).toBe(
+                "وجبل الرب الإله آدم ترابا من الأرض، ونفخ في أنفه نسمة حياة. فصار آدم نفسا حية."
+            );
+        });
+    });
+
+    describe("PUT /expressions/1/reaction", () => {
+        test("Return expression includes reactions after update", async () => {
+            const response = await request.put("/expressions/1/reaction").send({
+                content: "سمع صوت امراته وكسر الوصيه",
+            });
+            expect(response.status).toBe(200);
+            expect(response.body.data.textu).toBe("أدم");
+            expect(response.body.data.reactions[0].content).toBe(
+                "سمع صوت امراته وكسر الوصيه"
+            );
+        });
+    });
 });
