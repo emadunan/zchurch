@@ -7,7 +7,7 @@
     "lint": "eslint src/**",
     "lint:f": "eslint src/** --fix",
     "studio": "prisma studio",
-    "migrate": "prisma migrate dev",
+    "migrate": "prisma migrate dev --skip-seed",
     "migrate:test": "dotenv -e .env.test -- prisma migrate deploy",
     "seed": "ts-node src/prisma/seeds/bible.ts",
     "seed:test": "dotenv -e .env.test -- ts-node src/prisma/seeds/bible.ts",
