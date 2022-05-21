@@ -4,16 +4,19 @@ import prisma from "../client";
 const router = Router();
 
 // Define Expressions Routes
-router.get("/", getAllExpressions);
-router.post("/", createNewExpression);
-router.get("/:id", getOneExpression);
-router.put("/:id", updateExpression);
-router.delete("/:id", destroyExpression);
-router.put("/:id/verse/:verseId", connectVerse);
-router.delete("/:id/verse/:verseId", disconnectVerse);
+router.route("/").get(getAllExpressions).post(createNewExpression);
+
+router
+    .route("/:id")
+    .get(getOneExpression)
+    .put(updateExpression)
+    .delete(destroyExpression);
+
+router.route("/:id/verse/:verseId").put(connectVerse).delete(disconnectVerse);
+
 router.put("/:id/reaction", addReaction);
-router.delete("/reactions/:id", destroyReaction);
-router.put("/reactions/:id", updateReaction);
+
+router.route("/reactions/:id").put(updateReaction).delete(destroyReaction);
 
 // Define Expressions Endpoints destroyReaction
 
