@@ -13,7 +13,7 @@
     "seed:test": "dotenv -e .env.test -- ts-node src/prisma/seeds/bible.ts",
     "build": "tsc",
     "serve": "node dist/server.js",
-    "watch": "ts-node src/server.ts",
+    "watch": "nodemon src/server.ts",
     "debug": "nodemon --watch src/server.ts -e ts --exec node --inspect -r ts-node/register src/server.ts",
     "test": "dotenv -e .env.test -- jest -i"
   },
@@ -43,7 +43,8 @@
     "@prisma/client": "^3.14.0",
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.0",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "express-validator": "^6.14.1"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"

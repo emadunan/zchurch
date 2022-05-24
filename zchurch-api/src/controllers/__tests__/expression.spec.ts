@@ -14,6 +14,19 @@ describe("Expression Endpoints Tests", () => {
     });
 
     describe("POST /expressions", () => {
+
+        test("Create invalid expression return 400", async () => {
+            const response = await request.post("/expressions").send({
+                textu: "أ",
+                textf: "أ",
+                definition: "",
+            });
+            expect(response.status).toBe(400);
+            expect(response.body.errors[0].location).toBe("body");
+            expect(response.body.errors[0].msg).toBe("Invalid value");
+            expect(response.body.errors[0].param).toBe("textu");
+        });
+
         test("Create new expression and return it", async () => {
             const response = await request.post("/expressions").send({
                 textu: "ادم",

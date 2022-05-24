@@ -2,6 +2,8 @@ import express from "express";
 import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
 
+import { errorHandler, pageNotFoundHandler } from "./controllers/error";
+
 // Import routes
 import bibleRoutes from "./controllers/bible";
 import expressionsRoutes from "./controllers/expression";
@@ -19,6 +21,10 @@ app.use(bodyParser.json());
 // Register routes
 app.use("/bible", bibleRoutes);
 app.use("/expressions", expressionsRoutes);
+
+// Handle Error
+app.use(pageNotFoundHandler);
+app.use(errorHandler);
 
 // Listen to requests
 const applistener = app.listen(PORT, () => {

@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import prisma from "../client";
 
 const router = Router();
@@ -10,17 +10,25 @@ router.get("/:bookName", getOneBook);
 /** Define Bible Endpoints */
 
 // GET /bible -> Retrieve all books
-async function getAllBooks(req: Request, res: Response): Promise<void> {
+async function getAllBooks(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const books = await prisma.book.findMany();
         res.status(200).json(books);
     } catch (error) {
-        throw new Error(error as string);
+        next(error);
     }
 }
 
 // GET /bible/:bookName -> Retrieve one book
-async function getOneBook(req: Request, res: Response): Promise<void> {
+async function getOneBook(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
     try {
         const bookName = req.params.bookName;
         const book = await prisma.book.findFirst({
@@ -45,7 +53,7 @@ async function getOneBook(req: Request, res: Response): Promise<void> {
             });
         }
     } catch (error) {
-        throw new Error(error as string);
+        next(error);
     }
 }
 
