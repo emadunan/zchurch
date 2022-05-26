@@ -1,10 +1,12 @@
 import supertest from "supertest";
 import app from "../../server";
+import prisma from "../../client";
 
 const request = supertest(app);
 
 describe("Bible Endpoints Tests", () => {
-    afterAll(() => {
+    afterAll( async () => {
+        await prisma.$disconnect();
         app.close();
     });
 

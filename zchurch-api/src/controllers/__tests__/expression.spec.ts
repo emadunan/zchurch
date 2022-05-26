@@ -10,6 +10,7 @@ describe("Expression Endpoints Tests", () => {
             prisma.$executeRaw`TRUNCATE TABLE "Expression" CASCADE`,
             prisma.$executeRaw`ALTER SEQUENCE "Expression_id_seq" RESTART WITH 1`,
         ]);
+        await prisma.$disconnect();
         app.close();
     });
 
