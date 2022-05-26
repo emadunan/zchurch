@@ -96,6 +96,12 @@ describe("Expression Endpoints Tests", () => {
             expect(response.status).toBe(200);
             expect(response.body.textu).toBe("حواء");
         });
+
+        test("Throw Error for invalid input", async () => {
+            const response = await request.get("/expressions/$");
+            expect(response.status).toBe(400);
+            expect(response.body.message).toBe("the page that you were looking for doesn't exist");
+        });
     });
 
     describe("DELETE /expressions/2", () => {

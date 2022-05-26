@@ -3,7 +3,7 @@ import prisma from "../client";
 
 // Retrieve all books
 export const getAllBooks = async (
-    req: Request,
+    _req: Request,
     res: Response,
     next: NextFunction
 ): Promise<void> => {

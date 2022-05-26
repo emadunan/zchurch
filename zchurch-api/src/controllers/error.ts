@@ -6,8 +6,15 @@ export const errorHandler = (
     res: Response,
     _next: NextFunction
 ) => {
-    console.log(err);
-    res.status(500).json({ message: err.message });
+    switch (err.message) {
+        case "INVALID_PARAM":
+            res.status(400).json({ message: "the page that you were looking for doesn't exist" });
+            break;
+
+        default:
+            res.status(500).json({ message: err.message });
+            break;
+    }
 };
 
 export const pageNotFoundHandler = (req: Request, res: Response) => {

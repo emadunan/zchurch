@@ -28,6 +28,11 @@ export const getOneExpression = async (
 ): Promise<void> => {
     try {
         const id = +req.params.id;
+
+        if (!id) {
+            throw new Error("INVALID_PARAM");
+        }
+
         const expression = await prisma.expression.findFirst({
             where: {
                 id: id,
