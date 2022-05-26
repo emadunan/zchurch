@@ -6,8 +6,8 @@ import bodyParser from "body-parser";
 import { errorHandler, pageNotFoundHandler } from "./controllers/error";
 
 /** Import app controllers' routes */
-import bibleRoutes from "./controllers/bible";
-import expressionsRoutes from "./controllers/expression";
+import bibleRoutes from "./routes/bible";
+import expressionsRoutes from "./routes/expression";
 
 // Extract environment variables
 dotenv.config();

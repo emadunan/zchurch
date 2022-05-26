@@ -1,6 +1,6 @@
-import prisma from "../../client";
 import supertest from "supertest";
 import app from "../../server";
+import prisma from "../../client";
 
 const request = supertest(app);
 
@@ -15,7 +15,6 @@ describe("Expression Endpoints Tests", () => {
     });
 
     describe("POST /expressions", () => {
-
         test("Create invalid expression return 400", async () => {
             const response = await request.post("/expressions").send({
                 textu: "أ",

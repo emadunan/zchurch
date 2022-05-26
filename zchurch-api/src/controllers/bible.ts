@@ -1,16 +1,10 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import prisma from "../client";
-
-const router = Router();
-
-/** Define Bible Routes */
-router.get("/", getAllBooks);
-router.get("/:bookName", getOneBook);
 
 /** Define Bible Endpoints */
 
 // GET /bible -> Retrieve all books
-async function getAllBooks(
+export async function getAllBooks(
     req: Request,
     res: Response,
     next: NextFunction
@@ -24,7 +18,7 @@ async function getAllBooks(
 }
 
 // GET /bible/:bookName -> Retrieve one book
-async function getOneBook(
+export async function getOneBook(
     req: Request,
     res: Response,
     next: NextFunction
@@ -56,5 +50,3 @@ async function getOneBook(
         next(error);
     }
 }
-
-export default router;

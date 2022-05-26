@@ -1,36 +1,12 @@
-import { Router, Request, Response, NextFunction } from "express";
-import { body, validationResult } from "express-validator";
+import { Request, Response, NextFunction } from "express";
+import { validationResult } from "express-validator";
 import prisma from "../client";
-
-const router = Router();
-
-// Define Expressions Routes
-router
-    .route("/")
-    .get(getAllExpressions)
-    .post(
-        body("textu").isLength({ min: 2, max: 100 }),
-        body("textf").isLength({ min: 2, max: 200 }),
-        createNewExpression
-    );
-
-router
-    .route("/:id")
-    .get(getOneExpression)
-    .put(updateExpression)
-    .delete(destroyExpression);
-
-router.route("/:id/verse/:verseId").put(connectVerse).delete(disconnectVerse);
-
-router.put("/:id/reaction", addReaction);
-
-router.route("/reactions/:id").put(updateReaction).delete(destroyReaction);
 
 // Define Expressions Endpoints destroyReaction
 
 /** GET /expressions
  * Retrieve all expressions */
-async function getAllExpressions(
+export async function getAllExpressions(
     req: Request,
     res: Response,
     next: NextFunction
@@ -49,7 +25,7 @@ async function getAllExpressions(
 
 /** GET /expressions/:id
  * Retrieve one expression */
-async function getOneExpression(
+export async function getOneExpression(
     req: Request,
     res: Response,
     next: NextFunction
@@ -77,14 +53,14 @@ async function getOneExpression(
 
 /** POST /expressions
  * Create a new expression */
-async function createNewExpression(
+export async function createNewExpression(
     req: Request,
     res: Response,
     next: NextFunction
 ) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ errors: errors.array() });
     }
 
     try {
@@ -110,7 +86,7 @@ async function createNewExpression(
 
 /** PUT /expressions/:id
  * Update expression data */
-async function updateExpression(
+export async function updateExpression(
     req: Request,
     res: Response,
     next: NextFunction
@@ -146,7 +122,7 @@ async function updateExpression(
 
 /** DELETE /expressions/:id
  * Delete expression */
-async function destroyExpression(
+export async function destroyExpression(
     req: Request,
     res: Response,
     next: NextFunction
@@ -176,7 +152,11 @@ async function destroyExpression(
 
 /** PUT /expressions/:id/verse/:verseId
  * Connect expression to verse */
-async function connectVerse(req: Request, res: Response, next: NextFunction) {
+export async function connectVerse(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
     try {
         const { id, verseId } = req.params;
         const expression = await prisma.expression.update({
@@ -204,7 +184,7 @@ async function connectVerse(req: Request, res: Response, next: NextFunction) {
 }
 
 /** DELETE /expressions/:id/verse/:verseId */
-async function disconnectVerse(
+export async function disconnectVerse(
     req: Request,
     res: Response,
     next: NextFunction
@@ -237,7 +217,11 @@ async function disconnectVerse(
 }
 
 /** PUT /expressions/1/reaction */
-async function addReaction(req: Request, res: Response, next: NextFunction) {
+export async function addReaction(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
     try {
         const id = +req.params.id;
         const content = req.body.content;
@@ -266,7 +250,11 @@ async function addReaction(req: Request, res: Response, next: NextFunction) {
 }
 
 /** PUT /expressions/reactions/:id */
-async function updateReaction(req: Request, res: Response, next: NextFunction) {
+export async function updateReaction(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
     try {
         const id = +req.params.id;
         const content = req.body.content;
@@ -289,7 +277,7 @@ async function updateReaction(req: Request, res: Response, next: NextFunction) {
 }
 
 /** DELETE /expressions/reactions/:id */
-async function destroyReaction(
+export async function destroyReaction(
     req: Request,
     res: Response,
     next: NextFunction
@@ -310,5 +298,3 @@ async function destroyReaction(
         next(error);
     }
 }
-
-export default router;
