@@ -1,28 +1,26 @@
 import { Request, Response, NextFunction } from "express";
 import prisma from "../client";
 
-/** Define Bible Endpoints */
-
-// GET /bible -> Retrieve all books
-export async function getAllBooks(
+// Retrieve all books
+export const getAllBooks = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<void> {
+): Promise<void> => {
     try {
         const books = await prisma.book.findMany();
         res.status(200).json(books);
     } catch (error) {
         next(error);
     }
-}
+};
 
-// GET /bible/:bookName -> Retrieve one book
-export async function getOneBook(
+// Retrieve one book
+export const getOneBook = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<void> {
+): Promise<void> => {
     try {
         const bookName = req.params.bookName;
         const book = await prisma.book.findFirst({
@@ -49,4 +47,4 @@ export async function getOneBook(
     } catch (error) {
         next(error);
     }
-}
+};

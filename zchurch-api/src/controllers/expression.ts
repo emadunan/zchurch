@@ -2,15 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 import prisma from "../client";
 
-// Define Expressions Endpoints destroyReaction
-
-/** GET /expressions
- * Retrieve all expressions */
-export async function getAllExpressions(
-    req: Request,
+/** Retrieve all expressions */
+export const getAllExpressions = async (
+    _req: Request,
     res: Response,
     next: NextFunction
-): Promise<void> {
+): Promise<void> => {
     try {
         const expressions = await prisma.expression.findMany({
             orderBy: {
@@ -21,15 +18,14 @@ export async function getAllExpressions(
     } catch (error) {
         next(error);
     }
-}
+};
 
-/** GET /expressions/:id
- * Retrieve one expression */
-export async function getOneExpression(
+/** Retrieve one expression */
+export const getOneExpression = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<void> {
+): Promise<void> => {
     try {
         const id = +req.params.id;
         const expression = await prisma.expression.findFirst({
@@ -49,15 +45,14 @@ export async function getOneExpression(
     } catch (error) {
         next(error);
     }
-}
+};
 
-/** POST /expressions
- * Create a new expression */
-export async function createNewExpression(
+/** Create a new expression */
+export const createNewExpression = async (
     req: Request,
     res: Response,
     next: NextFunction
-) {
+) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -82,15 +77,14 @@ export async function createNewExpression(
     } catch (error) {
         next(error);
     }
-}
+};
 
-/** PUT /expressions/:id
- * Update expression data */
-export async function updateExpression(
+/** Update expression data */
+export const updateExpression = async (
     req: Request,
     res: Response,
     next: NextFunction
-) {
+) => {
     try {
         const id = +req.params.id;
         const { textu, textf, definition } = req.body;
@@ -118,15 +112,14 @@ export async function updateExpression(
     } catch (error) {
         next(error);
     }
-}
+};
 
-/** DELETE /expressions/:id
- * Delete expression */
-export async function destroyExpression(
+/** Delete expression */
+export const destroyExpression = async (
     req: Request,
     res: Response,
     next: NextFunction
-) {
+) => {
     try {
         const id = +req.params.id;
         const deletedExpression = await prisma.expression.delete({
@@ -148,15 +141,14 @@ export async function destroyExpression(
     } catch (error) {
         next(error);
     }
-}
+};
 
-/** PUT /expressions/:id/verse/:verseId
- * Connect expression to verse */
-export async function connectVerse(
+/** Connect expression to verse */
+export const connectVerse = async (
     req: Request,
     res: Response,
     next: NextFunction
-) {
+) => {
     try {
         const { id, verseId } = req.params;
         const expression = await prisma.expression.update({
@@ -181,14 +173,14 @@ export async function connectVerse(
     } catch (error) {
         next(error);
     }
-}
+};
 
-/** DELETE /expressions/:id/verse/:verseId */
-export async function disconnectVerse(
+/** Delete relation between expression and verse */
+export const disconnectVerse = async (
     req: Request,
     res: Response,
     next: NextFunction
-) {
+) => {
     try {
         const { id, verseId } = req.params;
         const updatedExpression = await prisma.expression.update({
@@ -214,14 +206,14 @@ export async function disconnectVerse(
     } catch (error) {
         next(error);
     }
-}
+};
 
-/** PUT /expressions/1/reaction */
-export async function addReaction(
+/** Add a reaction on an expression */
+export const addReaction = async (
     req: Request,
     res: Response,
     next: NextFunction
-) {
+) => {
     try {
         const id = +req.params.id;
         const content = req.body.content;
@@ -247,14 +239,14 @@ export async function addReaction(
     } catch (error) {
         next(error);
     }
-}
+};
 
-/** PUT /expressions/reactions/:id */
-export async function updateReaction(
+/** Edit a reaction on an expression */
+export const updateReaction = async (
     req: Request,
     res: Response,
     next: NextFunction
-) {
+) => {
     try {
         const id = +req.params.id;
         const content = req.body.content;
@@ -274,14 +266,14 @@ export async function updateReaction(
     } catch (error) {
         next(error);
     }
-}
+};
 
-/** DELETE /expressions/reactions/:id */
-export async function destroyReaction(
+/** Delete a reaction */
+export const destroyReaction = async (
     req: Request,
     res: Response,
     next: NextFunction
-) {
+) => {
     try {
         const id = +req.params.id;
         const deletedReaction = await prisma.reaction.delete({
@@ -297,4 +289,4 @@ export async function destroyReaction(
     } catch (error) {
         next(error);
     }
-}
+};

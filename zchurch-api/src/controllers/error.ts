@@ -1,21 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 
-export function errorHandler(
+export const errorHandler = (
     err: Error,
-    req: Request,
+    _req: Request,
     res: Response,
-    next: NextFunction
-) {
+    _next: NextFunction
+) => {
     console.log(err);
     res.status(500).json({ message: err.message });
-}
+};
 
-export function pageNotFoundHandler(
-    req: Request,
-    res: Response,
-    next: NextFunction
-) {
+export const pageNotFoundHandler = (req: Request, res: Response) => {
     res.status(404).json({
         message: "the page that you were looking for doesn't exist",
     });
-}
+};
