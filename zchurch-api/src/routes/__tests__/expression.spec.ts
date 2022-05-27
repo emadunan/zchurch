@@ -25,6 +25,7 @@ describe("Expression Endpoints Tests", () => {
             expect(response.body.errors[0].location).toBe("body");
             expect(response.body.errors[0].msg).toBe("Invalid value");
             expect(response.body.errors[0].param).toBe("textu");
+            expect(response.body.errors[0].value).toBe("أ");
         });
 
         test("Create new expression and return it", async () => {
@@ -100,7 +101,10 @@ describe("Expression Endpoints Tests", () => {
         test("Throw Error for invalid input", async () => {
             const response = await request.get("/expressions/$");
             expect(response.status).toBe(400);
-            expect(response.body.message).toBe("the page that you were looking for doesn't exist");
+            expect(response.body.errors[0].location).toBe("params");
+            expect(response.body.errors[0].msg).toBe("Invalid value");
+            expect(response.body.errors[0].param).toBe("id");
+            expect(response.body.errors[0].value).toBe("$");
         });
     });
 

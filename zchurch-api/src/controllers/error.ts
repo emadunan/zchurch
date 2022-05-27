@@ -8,7 +8,9 @@ export const errorHandler = (
 ) => {
     switch (err.message) {
         case "INVALID_PARAM":
-            res.status(400).json({ message: "the page that you were looking for doesn't exist" });
+            res.status(400).json({
+                message: "the page that you were looking for doesn't exist",
+            });
             break;
 
         default:

@@ -9,6 +9,7 @@ export const getAllExpressions = async (
     next: NextFunction
 ): Promise<void> => {
     try {
+        // Fetch all expressions from database
         const expressions = await prisma.expression.findMany({
             orderBy: {
                 id: "asc",
@@ -25,14 +26,18 @@ export const getOneExpression = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<void> => {
+): Promise<void | Response> => {
+    // Validate user inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
+        // Extract inputs from params
         const id = +req.params.id;
 
-        if (!id) {
-            throw new Error("INVALID_PARAM");
-        }
-
+        // Fetch the wanted expression from database
         const expression = await prisma.expression.findFirst({
             where: {
                 id: id,
@@ -58,17 +63,22 @@ export const createNewExpression = async (
     res: Response,
     next: NextFunction
 ) => {
+    // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
     try {
+        // Extract inputs from the request body
         const receivedExpression = req.body;
+
+        // Create a new expression and save it in database
         const createdExpression = await prisma.expression.create({
             data: receivedExpression,
         });
 
+        // Response with the created Expression or 400 (Bad request)
         if (createdExpression) {
             res.status(201).json({
                 message: "new expression has been created",
@@ -90,9 +100,20 @@ export const updateExpression = async (
     res: Response,
     next: NextFunction
 ) => {
+    // Validate user inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
+        // Extract inputs from params
         const id = +req.params.id;
+
+        // Extract inputs from request body
         const { textu, textf, definition } = req.body;
+
+        // Update selected expression and save it in database
         const updatedExpression = await prisma.expression.update({
             where: {
                 id: id,
@@ -104,6 +125,7 @@ export const updateExpression = async (
             },
         });
 
+        // Response with the updated Expression or 400 (Bad request)
         if (updatedExpression) {
             res.status(200).json({
                 message: "expression has been updated",
@@ -125,14 +147,24 @@ export const destroyExpression = async (
     res: Response,
     next: NextFunction
 ) => {
+    // Validate user inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
+        // Extract inputs from params
         const id = +req.params.id;
+
+        // Delete selected expression from database
         const deletedExpression = await prisma.expression.delete({
             where: {
                 id: id,
             },
         });
 
+        // Response with the deleted Expression or 400 (Bad request)
         if (deletedExpression) {
             res.status(200).json({
                 message: "expression has been removed",
@@ -154,8 +186,17 @@ export const connectVerse = async (
     res: Response,
     next: NextFunction
 ) => {
+    // Validate user inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
+        // Extract inputs from params
         const { id, verseId } = req.params;
+
+        // Connect a verse with an expression
         const expression = await prisma.expression.update({
             where: {
                 id: +id,
@@ -186,8 +227,17 @@ export const disconnectVerse = async (
     res: Response,
     next: NextFunction
 ) => {
+    // Validate user inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
+        // Extract inputs from params
         const { id, verseId } = req.params;
+
+        // Update selected expression and save it in database
         const updatedExpression = await prisma.expression.update({
             where: {
                 id: +id,
@@ -219,9 +269,20 @@ export const addReaction = async (
     res: Response,
     next: NextFunction
 ) => {
+    // Validate user inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
+        // Extract inputs from params
         const id = +req.params.id;
+
+        // Extract inputs from request body
         const content = req.body.content;
+
+        // Create reaction and save it in database
         const expression = await prisma.expression.update({
             where: {
                 id: id,
@@ -252,9 +313,20 @@ export const updateReaction = async (
     res: Response,
     next: NextFunction
 ) => {
+    // Validate user inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
+        // Extract inputs from params
         const id = +req.params.id;
+
+        // Extract inputs from request body
         const content = req.body.content;
+
+        // Update reaction content and save it in database
         const updatedReaction = await prisma.reaction.update({
             where: {
                 id: id,
@@ -279,8 +351,17 @@ export const destroyReaction = async (
     res: Response,
     next: NextFunction
 ) => {
+    // Validate user inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
+        // Extract inputs from params
         const id = +req.params.id;
+
+        // Delete selected reaction from database
         const deletedReaction = await prisma.reaction.delete({
             where: {
                 id: id,

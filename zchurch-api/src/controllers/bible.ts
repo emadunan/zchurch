@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { validationResult } from "express-validator";
 import prisma from "../client";
 
 // Retrieve all books
@@ -8,6 +9,7 @@ export const getAllBooks = async (
     next: NextFunction
 ): Promise<void> => {
     try {
+        // Fetch all books from database
         const books = await prisma.book.findMany();
         res.status(200).json(books);
     } catch (error) {
@@ -20,9 +22,18 @@ export const getOneBook = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<void> => {
+): Promise<void | Response> => {
+    // Validate user inputs
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
+        // Extract inputs from params
         const bookName = req.params.bookName;
+
+        // Fetch selected book data from database
         const book = await prisma.book.findFirst({
             where: {
                 nam: bookName,
