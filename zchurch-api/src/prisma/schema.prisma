@@ -12,6 +12,35 @@ datasource db {
 }
 
 // Models
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  isActive  Boolean
+  joinDate  DateTime @default(now())
+  lastLogin DateTime @default(now())
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  firstname String   @db.VarChar(50)
+  lastname  String   @db.VarChar(50)
+  gender    String   @db.VarChar(10)
+  country   Country  @relation(fields: [countryId], references: [id])
+  countryId Int
+  mobile    String   @db.VarChar(20)
+  birthDate DateTime
+}
+
+model Country {
+  id      Int       @id @default(autoincrement())
+  nam     String    @unique
+  iso     String    @db.Char(3)
+  code    String    @db.VarChar(10)
+  title   String    @db.VarChar(50)
+  Profile Profile[]
+}
+
 model Book {
   id       Int       @id @default(autoincrement())
   nam      String    @db.VarChar(50)
