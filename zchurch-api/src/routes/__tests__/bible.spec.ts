@@ -13,6 +13,10 @@ describe("Bible Endpoints Tests", () => {
     describe("GET /bible", () => {
         test("Return array of books", async () => {
             const response = await request.get("/bible");
+
+            // Response assertions
+            expect.assertions(5);
+
             expect(response.status).toBe(200);
             expect(response.body.length).toBe(66);
             expect(response.body[0].nam).toBe("genesis");
@@ -24,6 +28,10 @@ describe("Bible Endpoints Tests", () => {
     describe("GET /bible/jonah", () => {
         test("Return jonah book JSON", async () => {
             const response = await request.get("/bible/jonah");
+
+            // Response assertions
+            expect.assertions(3);
+
             expect(response.status).toBe(200);
             expect(response.body.nam).toBe("jonah");
             expect(response.body.chapters.length).toBe(4);
@@ -31,6 +39,10 @@ describe("Bible Endpoints Tests", () => {
 
         test("Return 404", async () => {
             const response = await request.get("/bible/david");
+
+            // Response assertions
+            expect.assertions(2);
+
             expect(response.status).toBe(404);
             expect(response.body.message).toBe(
                 "the page that you were looking for doesn't exist"

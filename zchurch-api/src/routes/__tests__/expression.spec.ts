@@ -21,6 +21,10 @@ describe("Expression Endpoints Tests", () => {
                 textf: "أ",
                 definition: "",
             });
+
+            // Response assertions
+            expect.assertions(5);
+
             expect(response.status).toBe(400);
             expect(response.body.errors[0].location).toBe("body");
             expect(response.body.errors[0].msg).toBe("Invalid value");
@@ -34,6 +38,10 @@ describe("Expression Endpoints Tests", () => {
                 textf: "ادَم",
                 definition: "انسان خلقة الرب الاله في اليوم السادس",
             });
+
+            // Response assertions
+            expect.assertions(3);
+
             expect(response.status).toBe(201);
             expect(response.body.data.textf).toBe("ادَم");
             expect(response.body.data.definition).toBe(
@@ -47,6 +55,10 @@ describe("Expression Endpoints Tests", () => {
                 textf: "حَواء",
                 definition: "انسانه خلقها الرب الاله من ضلع ادم",
             });
+
+            // Response assertions
+            expect.assertions(3);
+
             expect(response.status).toBe(201);
             expect(response.body.data.textf).toBe("حَواء");
             expect(response.body.data.definition).toBe(
@@ -62,6 +74,10 @@ describe("Expression Endpoints Tests", () => {
                 textf: "أدَم",
                 definition: "إنسان خلقة الرب الاله في اليوم السادس",
             });
+
+            // Response assertions
+            expect.assertions(3);
+
             expect(response.status).toBe(200);
             expect(response.body.data.textf).toBe("أدَم");
             expect(response.body.data.definition).toBe(
@@ -73,6 +89,10 @@ describe("Expression Endpoints Tests", () => {
             const response = await request.put("/expressions/1").send({
                 textf: "أدَمُ",
             });
+
+            // Response assertions
+            expect.assertions(3);
+
             expect(response.status).toBe(200);
             expect(response.body.data.textf).toBe("أدَمُ");
             expect(response.body.data.definition).toBe(
@@ -84,6 +104,10 @@ describe("Expression Endpoints Tests", () => {
     describe("GET /expressions", () => {
         test("Return array of expressions", async () => {
             const response = await request.get("/expressions");
+
+            // Response assertions
+            expect.assertions(4);
+
             expect(response.status).toBe(200);
             expect(response.body.length).toBe(2);
             expect(response.body[0].textu).toBe("أدم");
@@ -94,12 +118,20 @@ describe("Expression Endpoints Tests", () => {
     describe("GET /expressions/2", () => {
         test("Return one expression", async () => {
             const response = await request.get("/expressions/2");
+
+            // Response assertions
+            expect.assertions(2);
+
             expect(response.status).toBe(200);
             expect(response.body.textu).toBe("حواء");
         });
 
         test("Throw Error for invalid input", async () => {
             const response = await request.get("/expressions/$");
+
+            // Response assertions
+            expect.assertions(5);
+
             expect(response.status).toBe(400);
             expect(response.body.errors[0].location).toBe("params");
             expect(response.body.errors[0].msg).toBe("Invalid value");
@@ -111,6 +143,10 @@ describe("Expression Endpoints Tests", () => {
     describe("DELETE /expressions/2", () => {
         test("Return one expression", async () => {
             const response = await request.delete("/expressions/2");
+
+            // Response assertions
+            expect.assertions(2);
+
             expect(response.status).toBe(200);
             expect(response.body.data.textu).toBe("حواء");
         });
@@ -119,6 +155,10 @@ describe("Expression Endpoints Tests", () => {
     describe("PUT /expressions/1/verse/38", () => {
         test("Return expression includes related verses after update", async () => {
             const response = await request.put("/expressions/1/verse/38");
+
+            // Response assertions
+            expect.assertions(4);
+
             expect(response.status).toBe(200);
             expect(response.body.data.textu).toBe("أدم");
             expect(response.body.data.verses.length).toBe(1);
@@ -131,6 +171,10 @@ describe("Expression Endpoints Tests", () => {
     describe("DELETE /expressions/1/verse/38", () => {
         test("Disconnect the expression from the selected verse", async () => {
             const response = await request.delete("/expressions/1/verse/38");
+
+            // Response assertions
+            expect.assertions(2);
+
             expect(response.status).toBe(200);
             expect(response.body.data.verses.length).toBe(0);
         });
@@ -141,6 +185,10 @@ describe("Expression Endpoints Tests", () => {
             const response = await request.put("/expressions/1/reaction").send({
                 content: "سمع صوت امراته وكسر الوصيه",
             });
+
+            // Response assertions
+            expect.assertions(3);
+
             expect(response.status).toBe(200);
             expect(response.body.data.textu).toBe("أدم");
             expect(response.body.data.reactions[0].content).toBe(
@@ -163,6 +211,10 @@ describe("Expression Endpoints Tests", () => {
                 .send({
                     content: "هللويا",
                 });
+
+            // Response assertions
+            expect.assertions(2);
+
             expect(response.status).toBe(200);
             expect(response.body.data.content).toBe("هللويا");
         });
@@ -180,6 +232,10 @@ describe("Expression Endpoints Tests", () => {
             const response = await request.delete(
                 `/expressions/reactions/${reactionId}`
             );
+
+            // Response assertions
+            expect.assertions(2);
+
             expect(response.status).toBe(200);
             expect(response.body.data.id).toBe(reactionId);
         });
