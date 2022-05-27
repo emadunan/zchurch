@@ -19,6 +19,7 @@ model User {
   isActive  Boolean
   joinDate  DateTime @default(now())
   lastLogin DateTime @default(now())
+  profile   Profile?
 }
 
 model Profile {
@@ -30,6 +31,8 @@ model Profile {
   countryId Int
   mobile    String   @db.VarChar(20)
   birthDate DateTime
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
 }
 
 model Country {
