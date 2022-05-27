@@ -62,7 +62,7 @@ export const createNewExpression = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void | Response> => {
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -99,7 +99,7 @@ export const updateExpression = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void | Response> => {
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -146,7 +146,7 @@ export const destroyExpression = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void | Response> => {
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -185,7 +185,7 @@ export const connectVerse = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void | Response> => {
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -226,7 +226,7 @@ export const disconnectVerse = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void | Response> => {
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -268,7 +268,7 @@ export const addReaction = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void | Response> => {
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -312,7 +312,7 @@ export const updateReaction = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void | Response> => {
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -350,7 +350,7 @@ export const destroyReaction = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void | Response> => {
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

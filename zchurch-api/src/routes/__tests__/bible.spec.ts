@@ -7,7 +7,7 @@ const request = supertest(app);
 describe("Bible Endpoints Tests", () => {
     afterAll(async () => {
         await prisma.$disconnect();
-        app.close();
+        return app.close();
     });
 
     describe("GET /bible", () => {
