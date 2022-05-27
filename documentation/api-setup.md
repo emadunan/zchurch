@@ -33,7 +33,15 @@ npm init @eslint/config
   "extends": ["prettier"],
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": ["warn"]
+    "prettier/prettier": ["warn"],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "caughtErrorsIgnorePattern": "^_"
+      }
+    ]
   },
 }
 ```
@@ -59,7 +67,9 @@ npm i -D dotenv-cli     # Load the variables from the selected .env file in work
 npm i express           # Fast, unopinionated, minimalist web framework for node
 npm i -D @types/express
 
-npm i body-parser
+npm i express-validator # A set of express.js middlewares that wraps validator
+
+npm i body-parser       # Parse incoming request bodies in a middleware before your handlers
 npm i -D @types/body-parser
 ```
 
