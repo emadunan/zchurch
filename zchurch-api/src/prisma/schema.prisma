@@ -15,7 +15,7 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
-  password  String
+  password  String?
   isActive  Boolean
   joinDate  DateTime @default(now())
   lastLogin DateTime @default(now())

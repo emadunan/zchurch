@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 // Import books and chapters from data folder
 import { arBooks } from "../../../data/ar-books";
 import { arChapters } from "../../../data/ar-chapters";
+import countries from "../../../data/countries";
 
 const prisma = new PrismaClient();
 
@@ -134,4 +135,8 @@ async function seedBooksAsync() {
 (async () => {
     await seedBooksAsync();
     await seedFormattedVersesAsync();
+
+    await prisma.country.createMany({
+        data: countries,
+    });
 })();

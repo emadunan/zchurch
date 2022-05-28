@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import { errorHandler, pageNotFoundHandler } from "./controllers/error";
 
 /** Import app controllers' routes */
+import authRoutes from "./routes/auth";
 import bibleRoutes from "./routes/bible";
 import expressionsRoutes from "./routes/expression";
 
@@ -21,6 +22,7 @@ const server = http.createServer(app);
 app.use(bodyParser.json());
 
 // Register routes
+app.use("/auth", authRoutes);
 app.use("/bible", bibleRoutes);
 app.use("/expressions", expressionsRoutes);
 

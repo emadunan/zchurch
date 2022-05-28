@@ -73,6 +73,18 @@ npm i body-parser       # Parse incoming request bodies in a middleware before y
 npm i -D @types/body-parser
 ```
 
+### Install bcrypt
+```bash
+npm i bcrypt            # A library to help you hash passwords
+npm i -D @types/bcrypt
+```
+
+### Install jsonwebtoken
+```bash
+npm i jsonwebtoken      # An implementation of JSON Web Tokens
+npm i -D @types/jsonwebtoken
+```
+
 ### Install Prisma ORM
 ``` bash
 npm i prisma                # Next-generation Node.js and TypeScript ORM
