@@ -1,10 +1,20 @@
 import { Router } from "express";
-import { param } from "express-validator";
+import { body } from "express-validator";
 import * as authController from "../controllers/auth";
 
 const router = Router();
 
-// http://127.0.0.1:3000/auth/register
-router.post("/register", authController.register);
+router.post(
+    "/register",
+    body("email").isEmail(),
+    body("password").isLength({ min: 6, max: 40 }),
+    authController.register
+);
+router.post(
+    "/login",
+    body("email").isEmail(),
+    body("password").isLength({ min: 6, max: 40 }),
+    authController.login
+);
 
 export default router;

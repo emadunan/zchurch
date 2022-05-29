@@ -19,7 +19,7 @@ export const errorHandler = (
     }
 };
 
-export const pageNotFoundHandler = (req: Request, res: Response) => {
+export const pageNotFoundHandler = (_req: Request, res: Response) => {
     res.status(404).json({
         message: "the page that you were looking for doesn't exist",
     });

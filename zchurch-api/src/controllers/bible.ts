@@ -26,7 +26,9 @@ export const getOneBook = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {

@@ -30,7 +30,9 @@ export const getOneExpression = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {
@@ -66,7 +68,9 @@ export const createNewExpression = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {
@@ -103,7 +107,9 @@ export const updateExpression = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {
@@ -150,7 +156,9 @@ export const destroyExpression = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {
@@ -189,7 +197,9 @@ export const connectVerse = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {
@@ -230,7 +240,9 @@ export const disconnectVerse = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {
@@ -272,7 +284,9 @@ export const addReaction = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {
@@ -316,7 +330,9 @@ export const updateReaction = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {
@@ -354,7 +370,9 @@ export const destroyReaction = async (
     // Validate user inputs
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res
+            .status(400)
+            .json({ message: "ValidationError", errors: errors.array() });
     }
 
     try {
