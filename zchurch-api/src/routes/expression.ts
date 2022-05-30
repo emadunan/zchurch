@@ -9,8 +9,10 @@ router
     .route("/")
     .get(expressionController.getAllExpressions)
     .post(
-        body("textu").isLength({ min: 2, max: 100 }),
-        body("textf").isLength({ min: 2, max: 200 }),
+        [
+            body("textu").isLength({ min: 2, max: 100 }),
+            body("textf").isLength({ min: 2, max: 200 }),
+        ],
         expressionController.createNewExpression
     );
 

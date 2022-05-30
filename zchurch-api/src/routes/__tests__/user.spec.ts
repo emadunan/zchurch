@@ -71,22 +71,18 @@ describe("Expression Endpoints Tests", () => {
             });
 
             expect(response.status).toBe(400);
-            expect(response.body.message).toBe(
-                "ValidationError"
-            );
+            expect(response.body.message).toBe("ValidationError");
         });
 
         test("Not passing userId returns invalid input 400", async () => {
             const response = await request.post("/users").send({
                 firstname: "mariam",
                 lastname: "zelinesky",
-                gender: "FEMALE"
+                gender: "FEMALE",
             });
 
             expect(response.status).toBe(400);
-            expect(response.body.message).toBe(
-                "ValidationError"
-            );
+            expect(response.body.message).toBe("ValidationError");
         });
     });
 });

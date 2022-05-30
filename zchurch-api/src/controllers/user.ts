@@ -51,3 +51,40 @@ export const createNewUserProfile = async (
         next(error);
     }
 };
+
+export const getAllUsers = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void | Response> => {
+
+    try {
+        const {
+            email,
+            firstname,
+            lastname,
+            gender,
+            countryId,
+            mobile,
+        } = req.body;
+
+        const selectedUsers = await prisma.profile.findMany({
+            where: {
+                firstname: firstname || null,
+                lastname: lastname || null,
+                gender: gender || null,
+                countryId: +countryId || null,
+                mobile: mobile || null,
+            },
+            include: {
+                user: true
+            }
+        });
+
+        res.status(200).json(selectedUsers);
+
+    } catch (error) {
+        next(error);
+    }
+
+};
