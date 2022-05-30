@@ -9,6 +9,7 @@ import { errorHandler, pageNotFoundHandler } from "./controllers/error";
 import authRoutes from "./routes/auth";
 import bibleRoutes from "./routes/bible";
 import expressionsRoutes from "./routes/expression";
+import usersRoutes from "./routes/user";
 
 // Extract environment variables
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 app.use("/bible", bibleRoutes);
 app.use("/expressions", expressionsRoutes);
+app.use("/users", usersRoutes);
 
 // Handle Errors
 app.use(pageNotFoundHandler);
