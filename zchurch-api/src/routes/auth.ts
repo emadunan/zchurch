@@ -17,4 +17,11 @@ router.post(
     authController.login
 );
 
+router.put(
+    "/updatepassword",
+    body("oldPassword").exists(),
+    body("newPassword").isLength({ min: 6, max: 40 }),
+    authController.updatePassword
+);
+
 export default router;
