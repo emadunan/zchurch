@@ -1,11 +1,24 @@
+import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 
 export const errorHandler = (
-    err: Error,
+    err: any,
     _req: Request,
     res: Response,
     _next: NextFunction
 ) => {
+    console.log(err)
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        // The .code property can be accessed in a type-safe manner
+        switch (err.code) {
+            case 'P2025':
+                return res.status(404).json({message: err.meta?.cause});
+        
+            default:
+                break;
+        }
+    }
+
     switch (err.message) {
         case "INVALID_PARAM":
             res.status(400).json({

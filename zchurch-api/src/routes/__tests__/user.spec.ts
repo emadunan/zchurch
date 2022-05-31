@@ -6,6 +6,8 @@ const request = supertest(app);
 
 describe("Expression Endpoints Tests", () => {
     let mariamId: string;
+    let mariamToken: string;
+
     let rahabId: string;
 
     afterAll(async () => {
@@ -43,7 +45,7 @@ describe("Expression Endpoints Tests", () => {
                 mobile: "1003379933",
                 birthDate: "1996-01-01T07:40:00.000Z",
                 userId: rahabId,
-            });
+            }).set({ Authorization: rahabResponse.body.token });
 
             expect(response.status).toBe(201);
             expect(response.body.message).toBe("new profile has been created");
@@ -56,10 +58,11 @@ describe("Expression Endpoints Tests", () => {
             });
 
             mariamId = mariamResponse.body.id;
+            mariamToken = mariamResponse.body.token;
 
             const response = await request
                 .post("/users")
-                .send({ userId: mariamId });
+                .send({ userId: mariamId }).set({ Authorization: mariamResponse.body.token });
 
             expect(response.status).toBe(201);
             expect(response.body.message).toBe("new profile has been created");
@@ -71,7 +74,7 @@ describe("Expression Endpoints Tests", () => {
                 lastname: null,
                 gender: null,
                 userId: mariamId,
-            });
+            }).set({ Authorization: mariamToken });
 
             expect(response.status).toBe(201);
             expect(response.body.message).toBe("new profile has been created");
@@ -83,7 +86,7 @@ describe("Expression Endpoints Tests", () => {
                 lastname: "",
                 gender: "",
                 userId: mariamId,
-            });
+            }).set({ Authorization: mariamToken });
 
             expect(response.status).toBe(201);
             expect(response.body.message).toBe("new profile has been created");
@@ -95,7 +98,7 @@ describe("Expression Endpoints Tests", () => {
                 lastname: "z",
                 gender: "FEMALE",
                 userId: mariamId,
-            });
+            }).set({ Authorization: mariamToken });
 
             expect(response.status).toBe(400);
             expect(response.body.message).toBe("ValidationError");
@@ -106,10 +109,77 @@ describe("Expression Endpoints Tests", () => {
                 firstname: "mariam",
                 lastname: "zelinesky",
                 gender: "FEMALE",
-            });
+            }).set({ Authorization: mariamToken });
 
             expect(response.status).toBe(400);
             expect(response.body.message).toBe("ValidationError");
+        });
+    });
+
+    describe("PUT /users/1", () => {
+        test("Successfuly update profile and return it", async () => {
+            // Login 
+            const rahabResponse = await request.post("/auth/login").send({
+                email: "rahab@gmail.com",
+                password: "password"
+            });
+            // Get a token to use in tests
+            const rahabToken = rahabResponse.body.token;
+
+            // Test update user data
+            const response = await request.put("/users/1").send({
+                firstname: "Rahab",
+                lastname: "Yona",
+                birthDate: "1996-06-01T07:40:00.000Z",
+            }).set({ Authorization: rahabToken });
+
+            expect(response.status).toBe(200);
+            expect(response.body.data.firstname).toBe("Rahab");
+            expect(response.body.data.lastname).toBe("Yona");
+            expect(response.body.data.birthDate).toBe(
+                "1996-06-01T07:40:00.000Z"
+            );
+            expect(response.body.data.gender).toBe("FEMALE");
+        });
+
+        test("Return ValidationError", async () => {
+            // Login 
+            const rahabResponse = await request.post("/auth/login").send({
+                email: "rahab@gmail.com",
+                password: "password"
+            });
+            // Get a token to use in tests
+            const rahabToken = rahabResponse.body.token;
+
+            // Test update user data
+            const response = await request.put("/users/1").send({
+                firstname: "R",
+                lastname: "Yona",
+                birthDate: "1996-06-01T07:40:00.000Z",
+            }).set({ Authorization: rahabToken });
+
+            expect(response.status).toBe(400);
+            expect(response.body.message).toBe("ValidationError");
+        });
+
+        test("Return invalid inputs", async () => {
+            // Login 
+            const rahabResponse = await request.post("/auth/login").send({
+                email: "rahab@gmail.com",
+                password: "password"
+            });
+            // Get a token to use in tests
+            const rahabToken = rahabResponse.body.token;
+
+            // Test update user data
+            const response = await request.put("/users/11").send({
+                firstname: "Rana",
+                lastname: "Jonah",
+                birthDate: "1996-06-01T07:40:00.000Z",
+            }).set({ Authorization: rahabToken });
+
+            expect(response.status).toBe(401);
+            expect(response.body.message).toBe("unauthorized access");
         });
     });
 

@@ -1,3 +1,5 @@
+import { Profile } from "@prisma/client";
+
 export interface Token {
     id: string;
     email: string;
@@ -5,6 +7,7 @@ export interface Token {
     joinDate: Date;
     lastLogin: Date;
     iat: number;
+    profile: Profile;
 }
 
 export interface AuthenticatedUser {
