@@ -7,7 +7,7 @@ const router = Router();
 // Define Expressions Routes
 router
     .route("/")
-    .get(expressionController.getAllExpressions)
+    .get(expressionController.getExpressions)
     .post(
         [
             body("textu").isLength({ min: 2, max: 100 }),

@@ -113,6 +113,31 @@ describe("Expression Endpoints Tests", () => {
             expect(response.body[0].textu).toBe("أدم");
             expect(response.body[1].textu).toBe("حواء");
         });
+
+        test("Return array of matched expressions", async () => {
+            const response = await request
+                .get("/expressions")
+                .query({ textu: "حوا" });
+
+            // Response assertions
+            expect.assertions(3);
+
+            expect(response.status).toBe(200);
+            expect(response.body.length).toBe(1);
+            expect(response.body[0].textu).toBe("حواء");
+        });
+
+        test("Return empty array of expressions", async () => {
+            const response = await request
+                .get("/expressions")
+                .query({ textu: "حياه" });
+
+            // Response assertions
+            expect.assertions(2);
+
+            expect(response.status).toBe(200);
+            expect(response.body.length).toBe(0);
+        });
     });
 
     describe("GET /expressions/2", () => {

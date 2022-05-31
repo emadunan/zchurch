@@ -3,14 +3,22 @@ import { validationResult } from "express-validator";
 import prisma from "../client";
 
 /** Retrieve all expressions */
-export const getAllExpressions = async (
-    _req: Request,
+export const getExpressions = async (
+    req: Request,
     res: Response,
     next: NextFunction
 ): Promise<void> => {
     try {
+        // Extract inputs from query string
+        const textu = req.query.textu as string;
+
         // Fetch all expressions from database
         const expressions = await prisma.expression.findMany({
+            where: {
+                textu: {
+                    contains: textu,
+                },
+            },
             orderBy: {
                 id: "asc",
             },
