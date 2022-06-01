@@ -200,3 +200,9 @@ export const updatePassword = async (
         next(error);
     }
 };
+
+export const resetPassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void | Response> => {};
