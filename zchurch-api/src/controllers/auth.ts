@@ -53,7 +53,7 @@ export const register = async (
                 isActive: true,
                 joinDate: true,
                 lastLogin: true,
-                profile: true
+                profile: true,
             },
         });
 
@@ -93,8 +93,8 @@ export const login = async (
                 email: email,
             },
             include: {
-                profile: true
-            }
+                profile: true,
+            },
         });
 
         // Check the user existance
@@ -116,7 +116,7 @@ export const login = async (
             isActive: userToVerify.isActive,
             joinDate: userToVerify.joinDate,
             lastLogin: userToVerify.lastLogin,
-            profile: userToVerify.profile
+            profile: userToVerify.profile,
         };
 
         // Generate token and respond with user includes the generated token

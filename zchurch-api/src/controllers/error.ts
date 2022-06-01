@@ -6,14 +6,14 @@ export const errorHandler = (
     _req: Request,
     res: Response,
     _next: NextFunction
-) => {
-    console.log(err)
+): void | Response => {
+    console.log(err);
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
         // The .code property can be accessed in a type-safe manner
         switch (err.code) {
-            case 'P2025':
-                return res.status(404).json({message: err.meta?.cause});
-        
+            case "P2025":
+                return res.status(404).json({ message: err.meta?.cause });
+
             default:
                 break;
         }
