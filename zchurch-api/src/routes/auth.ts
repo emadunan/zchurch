@@ -24,4 +24,6 @@ router.put(
     authController.updatePassword
 );
 
+router.put("/resetpassword", authController.resetPassword);
+
 export default router;

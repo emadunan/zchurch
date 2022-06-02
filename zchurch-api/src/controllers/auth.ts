@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { NodeMailgun } from "ts-mailgun";
 import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -6,6 +7,10 @@ import jwt_decode from "jwt-decode";
 import prisma from "../client";
 
 import * as dto from "../DTOs";
+import * as utils from "../utils/main";
+
+// Extract environment variables
+const { SALT, SECRET, MAIL_APIKEY, MAIL_DOMAIN } = process.env;
 
 export const register = async (
     req: Request,
@@ -41,7 +46,7 @@ export const register = async (
         userToCreate.isActive = true;
 
         // Hash the received password
-        const password = await bcrypt.hash(userToCreate.password, 4);
+        const password = await bcrypt.hash(userToCreate.password, Number(SALT as string));
         userToCreate.password = password;
 
         // Create a new user
@@ -58,7 +63,7 @@ export const register = async (
         });
 
         // Generate token and respond with user includes the generated token
-        const token = jwt.sign(createdUser, "ennuba");
+        const token = jwt.sign(createdUser, SECRET as string);
         const authenticatedUser: dto.AuthenticatedUser = {
             ...createdUser,
             token: token,
@@ -120,7 +125,7 @@ export const login = async (
         };
 
         // Generate token and respond with user includes the generated token
-        const token = jwt.sign(tokenData, "ennuba");
+        const token = jwt.sign(tokenData, SECRET as string);
         const authenticatedUser: dto.AuthenticatedUser = {
             ...tokenData,
             token: token,
@@ -177,7 +182,7 @@ export const updatePassword = async (
             return res.status(400).json("your old password is incorrect");
 
         // Update the password and return Authenticated user
-        const hashNewPassword = await bcrypt.hash(newPassword, 4);
+        const hashNewPassword = await bcrypt.hash(newPassword, Number(SALT as string));
         await prisma.user.update({
             where: {
                 id: decodedToken.id,
@@ -201,8 +206,50 @@ export const updatePassword = async (
     }
 };
 
-export const resetPassword = async (
+export const resetPassword = (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<void | Response> => {};
+): void | Response => {
+    // Extract input form body
+    const email = req.body.email;
+    // Generate token to be sent in the request
+    const tokenData = {
+        email: email,
+        resetDate: new Date(),
+        resetCode: utils.makeRandomString(12),
+    };
+
+    const token = jwt.sign(tokenData, SECRET as string);
+
+    // Send reset password e-mail
+    const mailer = new NodeMailgun();
+    mailer.apiKey = <string>MAIL_APIKEY;
+    mailer.domain = <string>MAIL_DOMAIN;
+    mailer.fromEmail = "support@zchurch.com";
+    mailer.fromTitle = "Z-Church";
+
+    mailer.init();
+
+    mailer
+        .send(
+            "emadunan@gmail.com",
+            "Hello!",
+            `
+                <h1>Reset Password Request</h1>
+                <p>please follow the next url to reset your password</p>
+                <a href="/user/resetpasswordpage?ut=${token}">Click here to reset</a>
+                <p>Need any support, call us on +201003379933</p>
+            `
+        )
+        .then((result) => {
+            console.log("Done", result);
+            res.status(200).json("Please check your e-mail inbox.");
+        })
+        .catch((error) => {
+            console.error("Error: ", error);
+            res.status(400).json(
+                "Failed to send a reset password e-mail, please try again later."
+            );
+        });
+};
