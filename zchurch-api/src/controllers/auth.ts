@@ -238,7 +238,7 @@ export const resetPassword = (
             `
                 <h1>Reset Password Request</h1>
                 <p>please follow the next url to reset your password</p>
-                <a href="/user/resetpasswordpage?ut=${token}">Click here to reset</a>
+                <a href="/auth/resetpasswordpage?ut=${token}">Click here to reset</a>
                 <p>Need any support, call us on +201003379933</p>
             `
         )
@@ -253,3 +253,20 @@ export const resetPassword = (
             );
         });
 };
+
+export const recreatePassword = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    // Decode received token
+
+
+    // Validate token
+
+
+    // Update the password
+
+
+    // Respond with 200 OK
+}
